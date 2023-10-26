@@ -36,25 +36,13 @@ CASO_CERO:
     RETURN
 
 CASO_UNO:;Sentido horario
-    MOVLW B'10000000'
-    MOVWF PORTB     ; Escribe el valor en PORTB
-    CALL retardo
     MOVLW B'10010000'
-    MOVWF PORTB     ; Escribe el valor en PORTB
-    CALL retardo
-    MOVLW B'00010000'
     MOVWF PORTB     ; Escribe el valor en PORTB
     CALL retardo
     MOVLW B'00110000'
     MOVWF PORTB     ; Escribe el valor en PORTB
     CALL retardo
-    MOVLW B'00100000'
-    MOVWF PORTB     ; Escribe el valor en PORTB
-    CALL retardo
     MOVLW B'01100000'
-    MOVWF PORTB     ; Escribe el valor en PORTB
-    CALL retardo
-    MOVLW B'01000000'
     MOVWF PORTB     ; Escribe el valor en PORTB
     CALL retardo
     MOVLW B'11000000'
