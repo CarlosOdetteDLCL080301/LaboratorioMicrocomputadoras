@@ -8,9 +8,9 @@ COUNT EQU H'40'
 valor1 equ h'21'
 valor2 equ h'22'
 valor3 equ h'23'
-cte1 equ 80h;Este valor nos ayuda a que en retardo sea de 1/2 segundo (aprox se tarda 0.55 segundos para realizar el cambio)
-cte2 equ 50h
-cte3 equ 60h
+cte1 equ 40h;Este valor nos ayuda a que en retardo sea de 1/2 segundo (aprox se tarda 0.55 segundos para realizar el cambio)
+cte2 equ 40h
+cte3 equ 40h
 
 retardo 
 	MOVLW cte1
@@ -38,20 +38,28 @@ CASO_CERO:
 CASO_UNO:;Sentido horario
     MOVLW B'10000000'
     MOVWF PORTB     ; Escribe el valor en PORTB
+    CALL retardo
     MOVLW B'10010000'
     MOVWF PORTB     ; Escribe el valor en PORTB
+    CALL retardo
     MOVLW B'00010000'
     MOVWF PORTB     ; Escribe el valor en PORTB
+    CALL retardo
     MOVLW B'00110000'
     MOVWF PORTB     ; Escribe el valor en PORTB
+    CALL retardo
     MOVLW B'00100000'
     MOVWF PORTB     ; Escribe el valor en PORTB
+    CALL retardo
     MOVLW B'01100000'
     MOVWF PORTB     ; Escribe el valor en PORTB
+    CALL retardo
     MOVLW B'01000000'
     MOVWF PORTB     ; Escribe el valor en PORTB
+    CALL retardo
     MOVLW B'11000000'
     MOVWF PORTB     ; Escribe el valor en PORTB
+    CALL retardo
     RETURN          ; Regresa de la rutina
 
 CASO_DOS:; Sentido antihorario
@@ -80,6 +88,7 @@ CASO_TRES:
 		GOTO loop_end
 	loop_body:
 		CALL CASO_UNO
+        CALL CASO_UNO
 		DECF N,F
 		GOTO loop_begin
 	loop_end:
@@ -110,50 +119,9 @@ BCF STATUS,RP0 ; Cambia al banco 0
 CALL CASO_TRES
 
 LECTURA:
-	;------------CASO 0: Motor en paro
-	; Compara el valor de PORTA con 0 y ejecuta la llamada a la rutina correspondiente
-    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
-    XORLW 0         ; Compara W con 0
-    ; Si el resultado de la comparación es igual a cero (PORTA = 0), entonces salta a la rutina específica
-    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
-    CALL CASO_CERO	
-	BCF STATUS, Z
-
-	;------------CASO 1: Gira en sentido horario 
-	; Compara el valor de PORTA con 1 y ejecuta la llamada a la rutina correspondiente
-    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
-    XORLW 1         ; Compara W con 1
-    ; Si el resultado de la comparación es igual a cero (PORTA = 1), entonces salta a la rutina específica
-    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
-    CALL CASO_UNO
-	BCF STATUS, Z
 	
-	;------------CASO 2: Gira en sentido anti-horario
-	; Compara el valor de PORTA con 2 y ejecuta la llamada a la rutina correspondiente
-    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
-    XORLW 2         ; Compara W con 2
-    ; Si el resultado de la comparación es igual a cero (PORTA = 2), entonces salta a la rutina específica
-    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
-    CALL CASO_DOS
-	BCF STATUS, Z
-
-	;------------CASO 3: Gira cinco vueltas en sentido horario
-	; Compara el valor de PORTA con 3 y ejecuta la llamada a la rutina correspondiente
-    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
-    XORLW 3         ; Compara W con 3
-    ; Si el resultado de la comparación es igual a cero (PORTA = 3), entonces salta a la rutina específica
-    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
     CALL CASO_TRES
-	BCF STATUS, Z
-	;------------CASO 4: Gira 10 vueltas en sentido anti horario
-	; Compara el valor de PORTA con 4 y ejecuta la llamada a la rutina correspondiente
-    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
-    XORLW 4         ; Compara W con 4
-    ; Si el resultado de la comparación es igual a cero (PORTA = 4), entonces salta a la rutina específica
-    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
-    CALL CASO_CUATRO
-	BCF STATUS, Z
-	
+
 	GOTO LECTURA
 END
 
