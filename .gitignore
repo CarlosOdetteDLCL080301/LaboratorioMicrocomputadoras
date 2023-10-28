@@ -1,11 +1,2 @@
 *
-# Se agrega la siguiente linea para que no se suban los todos archivos de cada carpeta existente en el proyecto
-# Sin embargo, lo que si se subira, son todos los archivos ASM (ensamblador) que se encuentren en las carpetas 
-# de cada practica
-!*/*.asm
-# Se excluyen los archivos de extension .pdsprj (circuitos simulados) para que no se suban los
-# proyectos de cada practica
-!*/*.pdsprj
-
-
-
+!**/*.asm
