@@ -30,7 +30,7 @@ retardo
 		GOTO tres
 	RETURN
 
-CASO_CERO:
+ENPARO:
     MOVLW 0x00      ; Carga el valor FF en W
     MOVWF PORTB     ; Escribe el valor en PORTB
     RETURN
@@ -231,10 +231,53 @@ BCF STATUS,RP0 ; Cambia al banco 0
 ;CALL UnaVueltaAntihorario
 ;CALL UnaVueltaHorario
 ;CALL vueltasHorario
-CALL vueltasAntiHorario
+;CALL vueltasAntiHorario
 LECTURA:
 	
-    ;CALL CASO_TRES
+    ;------------CASO 0: MOTOR EN PARO
+	; Compara el valor de PORTA con 0 y ejecuta la llamada a la rutina correspondiente
+    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
+    XORLW 0         ; Compara W con 0
+    ; Si el resultado de la comparaci�n es igual a cero (PORTA = 0), entonces salta a la rutina espec�fica
+    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
+    CALL ENPARO
+	BCF STATUS, Z
+
+	;------------CASO 1: GIRA EN SENTIDO HORARIO
+	; Compara el valor de PORTA con 1 y ejecuta la llamada a la rutina correspondiente
+    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
+    XORLW 1         ; Compara W con 1
+    ; Si el resultado de la comparaci�n es igual a cero (PORTA = 1), entonces salta a la rutina espec�fica
+    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
+    CALL UnaVueltaHorario
+	BCF STATUS, Z
+	
+	;------------CASO 2: GIRA EN SENTIDO ANTI-HORARIO
+	; Compara el valor de PORTA con 2 y ejecuta la llamada a la rutina correspondiente
+    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
+    XORLW 2         ; Compara W con 2
+    ; Si el resultado de la comparaci�n es igual a cero (PORTA = 2), entonces salta a la rutina espec�fica
+    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
+    CALL UnaVueltaAntihorario
+	BCF STATUS, Z
+
+	;------------CASO 3: GIRA CINCO VUELTAS EN SENTIDO HORARIO
+	; Compara el valor de PORTA con 3 y ejecuta la llamada a la rutina correspondiente
+    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
+    XORLW 3         ; Compara W con 3
+    ; Si el resultado de la comparaci�n es igual a cero (PORTA = 3), entonces salta a la rutina espec�fica
+    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
+    CALL vueltasHorario
+	BCF STATUS, Z
+
+	;------------CASO 4: GIRA 10 VUELTAS EN SENTIDO ANTI-HORARIO
+	; Compara el valor de PORTA con 4 y ejecuta la llamada a la rutina correspondiente
+    MOVF PORTA, W   ; Lee el valor de PORTA y lo coloca en W
+    XORLW 4         ; Compara W con 4
+    ; Si el resultado de la comparaci�n es igual a cero (PORTA = 4), entonces salta a la rutina espec�fica
+    BTFSC STATUS, Z ; Comprueba el bit Z en el registro STATUS
+    CALL vueltasAntiHorario
+	BCF STATUS, Z
 
 	GOTO LECTURA
 END
