@@ -1,2 +1,10 @@
-*
-!**/*.asm
+#omitimos los archivos que no queremos que se suban al repositorio
+#Estos son los archivos que genera MPLAB
+**/*.cof
+**/*.err
+**/*.HEX
+**/*.lst
+**/*.map
+**/*.O
+**/*.mcs
+Practica5/SimulacioServoMotor.pdsprj.DESKTOP-QG2AGTN.Odette.workspace
